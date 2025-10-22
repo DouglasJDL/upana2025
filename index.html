@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Proyectos Marketing Plan 2025 | UPANA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'upana-blue': '#003B71',
+                        'upana-light-blue': '#0070BA',
+                        'upana-green': '#A8D92E',
+                        'upana-gray': '#F2F2F2'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #003B71 0%, #0070BA 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 59, 113, 0.15);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: 2% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+        }
+
+        #imageFullscreenModal .modal-content {
+            max-width: 95vw;
+            max-height: 95vh;
+            height: 95vh;
+            background-color: transparent;
+            box-shadow: none;
+        }
+        
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .carousel-slide {
+            display: none;
+        }
+        
+        .carousel-slide.active {
+            display: block;
+        }
+        
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #A8D92E;
+        }
+        
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f8f9fa;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .carousel-dot.active {
+            background: #A8D92E;
+        }
+        
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 59, 113, 0.6);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            z-index: 10;
+        }
+        
+        .carousel-arrow:hover {
+            background: rgba(0, 59, 113, 1);
+        }
+        
+        .carousel-arrow.prev {
+            left: 15px;
+        }
+        
+        .carousel-arrow.next {
+            right: 15px;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #003B71;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        /* Video.js theme customization */
+        .vjs-default-skin .vjs-big-play-button {
+            background-color: rgba(0, 59, 113, 0.7);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        .vjs-default-skin .vjs-control-bar {
+            background-color: rgba(0, 59, 113, 0.7);
+        }
+        .video-js.vjs-fluid {
+            width: 100%;
+            height: auto;
+            min-height: 300px;
+        }
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            padding: 2rem 1.5rem 1.5rem;
+            text-align: left;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        #imageFullscreenModal .close-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            line-height: 1;
+        }
+        #imageFullscreenModal .close-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-upana-gray">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#" onclick="event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' });" class="flex items-center space-x-3">
+                    <img src="https://mydatapca.s3.us-east-2.amazonaws.com/upana/UPANA-Logojpg.jpg" alt="Logo UPANA" class="w-10 h-10 rounded-full object-cover">
+                    <div class="text-upana-blue font-bold text-sm">UPANA</div>
+                </a>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#evento" class="nav-link text-upana-blue font-medium text-sm">Evento</a>
+                    <a href="#proyectos" class="nav-link text-upana-blue font-medium text-sm">Proyectos</a>
+                    <a href="#estudiantes" class="nav-link text-upana-blue font-medium text-sm">Estudiantes</a>
+                    <a href="#catedratica" class="nav-link text-upana-blue font-medium text-sm">Catedrática</a>
+                    <a href="#contacto" class="nav-link text-upana-blue font-medium text-sm">Contacto</a>
+                    <a href="#registro" onclick="scrollToSection('registro'); return false;" class="bg-upana-green text-upana-blue px-4 py-2 rounded-full font-bold text-sm hover:bg-upana-light-blue hover:text-white transition-colors">Confirmar Asistencia</a>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden text-upana-blue">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="#evento" class="nav-link text-upana-blue font-medium text-sm py-2">Evento</a>
+                    <a href="#proyectos" class="nav-link text-upana-blue font-medium text-sm py-2">Proyectos</a>
+                    <a href="#estudiantes" class="nav-link text-upana-blue font-medium text-sm py-2">Estudiantes</a>
+                    <a href="#catedratica" class="nav-link text-upana-blue font-medium text-sm py-2">Catedrática</a>
+                    <a href="#contacto" class="nav-link text-upana-blue font-medium text-sm py-2">Contacto</a>
+                    <a href="#registro" onclick="scrollToSection('registro');" class="bg-upana-green text-upana-blue text-center px-4 py-2 rounded-full font-bold text-sm mt-2">Confirmar Asistencia</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section Moderno -->
+    <section class="relative min-h-[70vh] md:min-h-screen bg-gradient-to-br from-upana-blue via-upana-light-blue to-upana-blue overflow-hidden">
+        <!-- Elementos decorativos de fondo -->
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-upana-green/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-upana-green/5 to-transparent rounded-full blur-3xl"></div>
+        </div>
+        
+        <!-- Patrón geométrico sutil -->
+        <div class="absolute inset-0 opacity-10">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs>
+                    <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="100" height="100" fill="url(#grid)" />
+            </svg>
+        </div>
+        
+        <div class="relative container mx-auto px-4 py-8 md:py-32">
+            <div class="text-center max-w-5xl mx-auto">
+                
+                <!-- Título principal con animación -->
+                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 text-white leading-tight mt-12">
+                    <span class="block">Presentación de</span>
+                    <span class="block bg-gradient-to-r from-upana-green to-white bg-clip-text text-transparent">
+                        Proyectos
+                    </span>
+                </h1>
+                
+                <!-- Subtítulo elegante -->
+                <div class="mb-6 md:mb-8">
+                    <h2 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-light text-white/90 mb-3 md:mb-4">Marketing Plan 2025</h2>
+                    <div class="w-16 md:w-24 h-1 bg-gradient-to-r from-upana-green to-white mx-auto rounded-full"></div>
+                </div>
+                
+                <!-- Descripción mejorada -->
+                <p class="text-base md:text-lg lg:text-xl text-white/80 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
+                    Estrategias de marketing innovadoras presentadas por estudiantes de UPANA.
+                </p>
+                
+                <!-- Botones de acción mejorados -->
+                <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center px-4">
+                    <button onclick="scrollToSection('registro')" class="group bg-upana-green text-upana-blue px-6 md:px-8 py-3 md:py-4 rounded-2xl font-bold text-base md:text-lg hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex items-center w-full sm:w-auto justify-center">
+                        <span>Confirma tu Asistencia</span>
+                        <svg class="w-4 h-4 md:w-5 md:h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </button>
+                    
+                    <button onclick="scrollToSection('proyectos')" class="group bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 md:px-8 py-3 md:py-4 rounded-2xl font-medium text-base md:text-lg hover:bg-white/20 transition-all duration-300 flex items-center w-full sm:w-auto justify-center">
+                        <svg class="w-4 h-4 md:w-5 md:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        <span>Ver Proyectos</span>
+                    </button>
+                </div>
+                
+                <!-- Estadísticas destacadas -->
+                <div class="grid grid-cols-3 gap-4 md:gap-8 mt-12 md:mt-16 max-w-2xl mx-auto px-4">
+                    <div class="text-center">
+                        <div class="text-2xl md:text-3xl lg:text-4xl font-bold text-upana-green mb-1 md:mb-2">7+</div>
+                        <div class="text-white/70 text-xs md:text-sm">Estudiantes</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl md:text-3xl lg:text-4xl font-bold text-upana-green mb-1 md:mb-2">7+</div>
+                        <div class="text-white/70 text-xs md:text-sm">Proyectos</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl md:text-3xl lg:text-4xl font-bold text-upana-green mb-1 md:mb-2">3h</div>
+                        <div class="text-white/70 text-xs md:text-sm">De Evento</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Indicador de scroll -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Sobre el Evento -->
+    <section id="evento" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-4xl font-bold text-upana-blue mb-4">Sobre el Evento</h2>
+                <div class="w-16 md:w-24 h-1 bg-upana-green mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-xl md:text-2xl font-bold text-upana-blue mb-4">Una Celebración del Talento Estudiantil</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        Los estudiantes presentarán sus proyectos finales del curso Marketing Plan, 
+                        demostrando estrategias innovadoras desarrolladas durante el semestre.
+                    </p>
+                    
+                    <div class="bg-gradient-to-r from-upana-blue to-upana-light-blue p-6 rounded-2xl text-white shadow-lg">
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="text-3xl mb-1">📅</div>
+                                <div class="font-bold">Fecha</div>
+                                <div class="text-sm">16 Nov 2025</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl mb-1">🕒</div>
+                                <div class="font-bold">Horario</div>
+                                <div class="text-sm">4:00 PM - 7:00 PM</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl mb-1">📍</div>
+                                <div class="font-bold">Ubicación</div>
+                                <div class="text-sm">C.C. Trinidad</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="bg-upana-gray p-4 rounded-2xl shadow-lg">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9178.698741513166!2d-91.8625!3d14.7042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x858e61b5863902f1%3A0xc8c1793159d1e0d8!2sCentro%20Comercial%20La%20Trinidad%20Coatepeque!5e0!3m2!1ses!2sgt!4v1699999999999!5m2!1ses!2sgt" 
+                            width="100%" 
+                            height="350" 
+                            style="border:0; border-radius: 12px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                     <p class="text-center text-gray-600 mt-4 text-sm">Centro Comercial Trinidad, Coatepeque, Quetzaltenango</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proyectos Estudiantiles -->
+    <section id="proyectos" class="py-16 md:py-24 bg-gradient-to-br from-upana-gray via-white to-upana-gray relative overflow-hidden">
+        <!-- Elementos decorativos -->
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-0 w-64 h-64 bg-upana-blue/5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 bg-upana-green/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative">
+            <div class="text-center mb-16">
+                <!-- Badge superior -->
+                <div class="inline-flex items-center bg-upana-blue/10 px-4 py-2 rounded-full mb-6">
+                    <span class="text-upana-blue font-medium text-sm">🚀 Innovación Estudiantil</span>
+                </div>
+                
+                <h2 class="text-4xl md:text-5xl font-bold text-upana-blue mb-6">
+                    Proyectos <span class="bg-gradient-to-r from-upana-green to-upana-light-blue bg-clip-text text-transparent">Estudiantiles</span>
+                </h2>
+                
+                <div class="w-24 h-1 bg-gradient-to-r from-upana-blue to-upana-green mx-auto rounded-full mb-8"></div>
+                
+                <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                    Descubre las estrategias innovadoras y creativas desarrolladas por nuestros talentosos estudiantes. 
+                    Cada proyecto representa meses de investigación, análisis y desarrollo estratégico.
+                </p>
+            </div>
+            
+            <!-- Grid for projects -->
+            <div id="project-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Projects will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Quiénes Somos -->
+    <section id="estudiantes" class="py-12 md:py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-2xl md:text-4xl font-bold text-upana-blue mb-4 md:mb-6">Quiénes Somos</h2>
+                <div class="w-16 md:w-24 h-1 bg-upana-green mx-auto mb-6 md:mb-8"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div>
+                    <h3 class="text-xl md:text-2xl font-bold text-upana-blue mb-4 md:mb-6">Estudiantes del 8vo Trimestre</h3>
+                    <p class="text-gray-700 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
+                        Somos un grupo de futuros administradores de empresas apasionados por el marketing y la innovación. 
+                        Durante este trimestre, hemos desarrollado estrategias creativas y viables que reflejan nuestro 
+                        compromiso con la excelencia académica y profesional.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3 md:gap-4 text-center">
+                        <div class="bg-upana-gray p-3 md:p-4 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-upana-blue">7+</div>
+                            <div class="text-xs md:text-sm text-gray-600">Estudiantes</div>
+                        </div>
+                        <div class="bg-upana-gray p-3 md:p-4 rounded-lg">
+                            <div class="text-xl md:text-2xl font-bold text-upana-blue">7+</div>
+                            <div class="text-xs md:text-sm text-gray-600">Proyectos</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-upana-gray p-6 md:p-8 rounded-lg">
+                    <h4 class="text-lg md:text-xl font-bold text-upana-blue mb-3 md:mb-4">Nuestras Especialidades</h4>
+                    <div class="space-y-2 md:space-y-3">
+                        <div class="flex items-center">
+                            <div class="w-2 md:w-3 h-2 md:h-3 bg-upana-green rounded-full mr-3"></div>
+                            <span class="text-gray-700 text-sm md:text-base">Marketing Digital y Redes Sociales</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-2 md:w-3 h-2 md:h-3 bg-upana-green rounded-full mr-3"></div>
+                            <span class="text-gray-700 text-sm md:text-base">Estrategias de Branding</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-2 md:w-3 h-2 md:h-3 bg-upana-green rounded-full mr-3"></div>
+                            <span class="text-gray-700 text-sm md:text-base">Análisis de Mercado</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-2 md:w-3 h-2 md:h-3 bg-upana-green rounded-full mr-3"></div>
+                            <span class="text-gray-700 text-sm md:text-base">Emprendimiento e Innovación</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sobre la Catedrática -->
+    <section id="catedratica" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-upana-blue mb-6">Nuestra Catedrática</h2>
+                <div class="w-24 h-1 bg-upana-green mx-auto mb-8"></div>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-8 items-center">
+                    <div class="text-center">
+                        <div id="catedratica-img-container" class="w-32 h-32 bg-upana-blue rounded-full flex items-center justify-center mx-auto mb-4 overflow-hidden">
+                             <img id="catedratica-img" src="" alt="Foto de la catedrática" class="w-full h-full object-cover hidden">
+                             <span id="catedratica-fallback" class="text-white font-bold text-4xl">👩‍🏫</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-upana-blue">Ana Betzie Andrade Barrios</h3>
+                        <p class="text-upana-light-blue">Catedrática Marketing Plan</p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h4 class="text-xl font-bold text-upana-blue mb-4">Experiencia y Trayectoria</h4>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            Con más de 15 años de experiencia en marketing estratégico y educación superior, 
+                            la Dra. Vásquez ha guiado a cientos de estudiantes en el desarrollo de estrategias 
+                            innovadoras y efectivas.
+                        </p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-upana-green rounded-full mr-3"></div>
+                                <span class="text-gray-700">PhD en Marketing Estratégico</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-upana-green rounded-full mr-3"></div>
+                                <span class="text-gray-700">Consultora en empresas Fortune 500</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-upana-green rounded-full mr-3"></div>
+                                <span class="text-gray-700">Autora de 3 libros sobre marketing digital</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registro -->
+    <section id="registro" class="py-16 bg-upana-gray">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-upana-blue mb-6">Confirma tu Asistencia</h2>
+                <div class="w-24 h-1 bg-upana-green mx-auto mb-8"></div>
+                <p class="text-gray-700 text-lg">Confirma tu asistencia al evento más importante del trimestre</p>
+            </div>
+            
+            <div class="max-w-2xl mx-auto">
+                <div id="registration-container">
+                    <form class="bg-white p-8 rounded-lg shadow-lg" onsubmit="handleRegistration(event)">
+                        <div class="mb-6">
+                            <label for="nombre" class="block text-upana-blue font-medium mb-2">Nombre Completo</label>
+                            <input type="text" id="nombre" name="nombre" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-upana-blue">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-upana-blue font-medium mb-2">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" required placeholder="tuemail@dominio.com" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-upana-blue">
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="telefono" class="block text-upana-blue font-medium mb-2">Teléfono con WhatsApp</label>
+                            <input type="tel" id="telefono" name="telefono" required placeholder="12345678" maxlength="8" pattern="\d{8}" title="Por favor, introduce un número de 8 dígitos" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-upana-blue">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="tipo" class="block text-upana-blue font-medium mb-2">Tipo de Asistente</label>
+                            <select id="tipo" name="tipo" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-upana-blue">
+                                <option value="">Selecciona una opción</option>
+                                <option value="estudiante">Estudiante UPANA</option>
+                                <option value="familiar">Familiar de estudiante</option>
+                                <option value="profesional">Profesional/Empresario</option>
+                                <option value="academico">Académico/Docente</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="comentarios" class="block text-upana-blue font-medium mb-2">Comentarios (Opcional)</label>
+                            <textarea id="comentarios" name="comentarios" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-upana-blue"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-upana-blue text-white py-4 rounded-lg font-bold text-lg hover:bg-upana-light-blue transition-colors duration-300 flex items-center justify-center">
+                            Confirmar mi Asistencia
+                        </button>
+                    </form>
+                </div>
+                <div id="success-container" class="hidden">
+                    <!-- Success message will be injected here -->
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="text-lg font-bold text-upana-blue mb-2">Información Importante</h4>
+                        <p class="text-gray-700 text-sm">
+                            El evento se realizará en el Centro Comercial Trinidad. 
+                            Recibirás un correo de confirmación con los detalles específicos de ubicación y horarios.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre UPANA -->
+    <section class="py-16 bg-upana-blue text-white">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-3xl mx-auto">
+                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
+                    <img src="https://mydatapca.s3.us-east-2.amazonaws.com/upana/UPANA-Logojpg.jpg" alt="Logo UPANA" class="w-18 h-18 rounded-full object-cover">
+                </div>
+                <h2 class="text-3xl font-bold mb-6">Universidad Panamericana de Guatemala</h2>
+                <p class="text-lg leading-relaxed mb-6">
+                    Formando líderes empresariales con excelencia académica, valores éticos y compromiso social. 
+                    UPANA se distingue por su enfoque práctico y su conexión directa con el mundo empresarial.
+                </p>
+                <a href="https://www.upana.edu.gt/" target="_blank" rel="noopener noreferrer" class="inline-block bg-upana-green text-upana-blue px-6 py-3 rounded-lg font-bold hover:bg-white transition-colors duration-300">
+                    Conoce más sobre UPANA
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-16 bg-gradient-to-br from-upana-gray to-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center bg-upana-blue/10 px-4 py-2 rounded-full mb-4">
+                    <span class="text-upana-blue font-medium text-sm">📞 Contacto</span>
+                </div>
+                <h2 class="text-4xl font-bold text-upana-blue mb-6">¿Tienes Preguntas?</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Estamos aquí para ayudarte con cualquier consulta sobre el evento</p>
+            </div>
+            
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-white/20 text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-upana-green to-upana-light-blue rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-upana-blue mb-4">WhatsApp</h3>
+                    <p class="text-gray-600 mb-6">Contáctanos directamente para resolver tus dudas</p>
+                    <a href="https://wa.me/50212345678" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-upana-green text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-upana-blue hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <span class="mr-3">💬</span>
+                        <span>+502 1234-5678</span>
+                    </a>
+                    <p class="text-sm text-gray-500 mt-4">Horario de atención: Lunes a Viernes, 8:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Botón Flotante de WhatsApp -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <a href="https://wa.me/50212345678?text=Hola%2C%20tengo%20una%20consulta%20sobre%20la%20Presentaci%C3%B3n%20de%20Proyectos%20Marketing%20Plan%202025%20de%20UPANA" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="group bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center animate-pulse hover:animate-none">
+            <!-- Icono de WhatsApp SVG -->
+            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+            </svg>
+            
+            <!-- Tooltip -->
+            <div class="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                ¿Tienes preguntas? ¡Chatea con nosotros!
+                <div class="absolute left-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-l-gray-800"></div>
+            </div>
+        </a>
+        
+        <!-- Indicador de disponibilidad -->
+        <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-ping"></div>
+        <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-upana-blue text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="font-bold mb-4">Enlaces Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#evento" class="hover:text-upana-green">Sobre el Evento</a></li>
+                        <li><a href="#proyectos" class="hover:text-upana-green">Proyectos</a></li>
+                        <li><a href="#estudiantes" class="hover:text-upana-green">Estudiantes</a></li>
+                        <li><a href="#catedratica" class="hover:text-upana-green">Catedrática</a></li>
+                        <li><a href="#registro" class="hover:text-upana-green">Confirmar Asistencia</a></li>
+                        <li><a href="#contacto" class="hover:text-upana-green">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Información Académica</h4>
+                    <ul class="space-y-2">
+                        <li>8vo Trimestre</li>
+                        <li>Administración de Empresas</li>
+                        <li>Curso: Marketing Plan</li>
+                        <li>UPANA 2025</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Colaboradores</h4>
+                    <ul class="space-y-2">
+                        <li>Centro Comercial Trinidad</li>
+                        <li>Universidad Panamericana</li>
+                        <li>Comunidad Empresarial</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-upana-light-blue mt-8 pt-8 text-center">
+                <p>&copy; 2025 Universidad Panamericana de Guatemala. Todos los derechos reservados.</p>
+                <p class="text-sm mt-2">Presentación de Proyectos Marketing Plan - 16 de Noviembre 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para Proyectos -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="bg-upana-blue text-white p-6 rounded-t-lg">
+                <div class="flex justify-between items-center">
+                    <h2 id="modalTitle" class="text-2xl font-bold">Proyecto</h2>
+                    <button onclick="closeProjectModal()" class="text-white hover:text-upana-green text-2xl">&times;</button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <div id="modalContent">
+                    <!-- Contenido dinámico del proyecto -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Image Modal -->
+    <div id="imageFullscreenModal" class="modal">
+        <div class="modal-content h-full w-full flex items-center justify-center">
+             <div id="fullscreenCarouselContainer" class="w-full h-full relative"></div>
+             <button onclick="closeImageFullscreen()" class="absolute top-4 right-4 text-white text-2xl font-bold close-btn">&times;</button>
+        </div>
+    </div>
+
+    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
+    <script>
+        // Store project data globally after fetching
+        let projectsData = {};
+        let currentSlides = {}; // Changed to track image carousel slide
+
+        // --- Navigation ---
+        function scrollToSection(sectionId) {
+            const target = document.getElementById(sectionId);
+            if (target) {
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = target.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            
+            if (mobileMenu && !mobileMenu.contains(event.target) && mobileMenuBtn && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // --- Form Handling ---
+        function handleRegistration(event) {
+            event.preventDefault();
+            const form = event.target;
+            const button = form.querySelector('button[type="submit"]');
+            const originalButtonText = button.innerHTML;
+            const nombre = form.querySelector('#nombre').value;
+            const registrationContainer = document.getElementById('registration-container');
+            const successContainer = document.getElementById('success-container');
+
+            // Simulate sending state
+            button.disabled = true;
+            button.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Enviando...
+            `;
+
+            // Simulate network delay
+            setTimeout(() => {
+                // Hide form, show success
+                registrationContainer.classList.add('hidden');
+                successContainer.innerHTML = `
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                        <div class="w-16 h-16 bg-upana-green rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-upana-blue mb-2">¡Asistencia Confirmada!</h3>
+                        <p class="text-gray-600 mb-6">Gracias, ${nombre}. Hemos recibido tu confirmación.</p>
+                        <button onclick="resetRegistrationForm()" class="bg-upana-blue text-white py-3 px-6 rounded-lg font-bold hover:bg-upana-light-blue transition-colors">
+                            Confirmar otra asistencia
+                        </button>
+                    </div>
+                `;
+                successContainer.classList.remove('hidden');
+
+                // Reset button but keep form hidden
+                button.disabled = false;
+                button.innerHTML = originalButtonText;
+
+            }, 2000);
+        }
+
+        function resetRegistrationForm() {
+            const registrationContainer = document.getElementById('registration-container');
+            const successContainer = document.getElementById('success-container');
+            const form = registrationContainer.querySelector('form');
+            
+            form.reset();
+            successContainer.classList.add('hidden');
+            registrationContainer.classList.remove('hidden');
+        }
+
+        // --- Project Data Fetching and Rendering ---
+        function renderProjectCards(projects) {
+            const grid = document.getElementById('project-grid');
+            if (!grid) return;
+            grid.innerHTML = ''; // Clear loader or previous content
+
+            if (!projects || projects.length === 0) {
+                 grid.innerHTML = `<p class="text-center text-gray-600 col-span-full">No hay proyectos para mostrar en este momento.</p>`;
+                 return;
+            }
+
+            projects.forEach(project => {
+                const initials = (project.titulo || '').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+                const studentInitials = (project.estudiante || '').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+
+                const logoContainer = `<div class="w-20 h-20 bg-gradient-to-br from-upana-blue to-upana-light-blue rounded-2xl flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                            <span class="text-white font-bold text-2xl">${initials}</span>
+                                       </div>`;
+                const escapedLogoContainer = logoContainer.replace(/"/g, '&quot;');
+
+                const studentImageContainer = `<div class="w-8 h-8 bg-gradient-to-r from-upana-green to-upana-light-blue rounded-full flex items-center justify-center mr-2">
+                                                    <span class="text-white font-bold text-xs">${studentInitials}</span>
+                                               </div>`;
+                const escapedStudentImageContainer = studentImageContainer.replace(/"/g, '&quot;');
+
+
+                const cardHTML = `
+                <div class="group bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 card-hover cursor-pointer overflow-hidden" onclick="openProjectModal('${project.id}')">
+                    <div class="p-8">
+                        <div class="relative mb-6">
+                             ${project.logo ? `<img src="${project.logo}" class="w-20 h-20 rounded-2xl mb-4 mx-auto shadow-lg group-hover:scale-110 transition-transform duration-300 object-cover" onerror="this.onerror=null;this.outerHTML='${escapedLogoContainer}';">` : logoContainer}
+                            <div class="absolute -top-2 -right-2 w-6 h-6 bg-upana-green rounded-full opacity-80"></div>
+                        </div>
+                        <h3 class="text-xl font-bold text-upana-blue mb-3 text-center group-hover:text-upana-light-blue transition-colors">${project.titulo}</h3>
+                        <p class="text-gray-600 mb-4 text-center leading-relaxed h-14 overflow-hidden">${project.descripcion}</p>
+                        <div class="flex items-center justify-center mb-6">
+                            ${project.img_estudiante ? `<img src="${project.img_estudiante}" class="w-8 h-8 rounded-full mr-2 object-cover" onerror="this.onerror=null;this.outerHTML='${escapedStudentImageContainer}';">` : studentImageContainer}
+                            <span class="text-sm text-upana-blue font-medium">${project.estudiante}</span>
+                        </div>
+                        <div class="flex justify-center space-x-3 mb-6 h-10">
+                            ${(project.redes_sociales || []).map(social => `
+                                <a href="${social.url}" target="_blank" rel="noopener noreferrer" class="flex items-center bg-${social.color}-50 px-3 py-2 rounded-full border border-${social.color}-100 hover:bg-${social.color}-100 transition-colors">
+                                    <svg class="w-4 h-4 mr-2 text-${social.color}-600" fill="currentColor" viewBox="0 0 24 24"><path d="${social.icono}"/></svg>
+                                    <span class="text-${social.color}-600 text-sm font-medium">${social.nombre}</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-upana-green to-upana-light-blue text-white py-3 rounded-2xl font-medium hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group-hover:from-upana-blue group-hover:to-upana-light-blue">
+                            Ver Proyecto Completo
+                        </button>
+                    </div>
+                </div>`;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        async function fetchProjects() {
+            const grid = document.getElementById('project-grid');
+            const url = 'https://script.google.com/macros/s/AKfycbyVs23RfwtMgtMcLt5S4FZvDYxrJl9GsRI_irV336Kt5P1DwoJQhPxvqSLNg6_Zfa1_/exec';
+            const apiKey = '){=RIlLqu,18uC_v1+T#530tRWWAFc8E,36M~ce7';
+
+            // Show loader
+            grid.innerHTML = '<div class="loader col-span-full"></div>';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `api_key=${encodeURIComponent(apiKey)}`
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                // --- NEW: Shuffle the projects array ---
+                let projects = data.proyectos;
+                for (let i = projects.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [projects[i], projects[j]] = [projects[j], projects[i]];
+                }
+                
+                // Create the object format needed for the modal
+                projectsData = projects.reduce((acc, p) => {
+                    acc[p.id] = { ...p };
+                    return acc;
+                }, {});
+
+                // Update Catedratica Image
+                const catedraticaImg = document.getElementById('catedratica-img');
+                const catedraticaFallback = document.getElementById('catedratica-fallback');
+                if (projects.length > 0 && projects[0].img_catedratico) {
+                    catedraticaImg.src = projects[0].img_catedratico;
+                    catedraticaImg.classList.remove('hidden');
+                    catedraticaFallback.classList.add('hidden');
+                    catedraticaImg.onerror = () => {
+                        catedraticaImg.classList.add('hidden');
+                        catedraticaFallback.classList.remove('hidden');
+                    };
+                }
+                
+                // Render the cards on the main page
+                renderProjectCards(projects);
+                
+                // Handle URL parameters after data is loaded and rendered
+                handleUrlParameters();
+
+            } catch (error) {
+                console.error("Error al cargar los proyectos:", error);
+                grid.innerHTML = `
+                    <div class="col-span-full text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">¡Error!</strong>
+                        <span class="block sm:inline">No se pudieron cargar los proyectos. Por favor, inténtalo de nuevo más tarde.</span>
+                    </div>
+                `;
+            }
+        }
+        
+        // Fetch projects when the page loads
+        document.addEventListener('DOMContentLoaded', fetchProjects);
+
+
+        // --- Modal ---
+        function openProjectModal(projectId) {
+            const project = projectsData[projectId];
+            if (!project) return;
+
+            const modal = document.getElementById('projectModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+
+            modalTitle.textContent = project.title;
+
+            // Separate media types
+            const videos = (project.galeria || []).filter(m => m.tipo === 'video');
+            const images = (project.galeria || []).filter(m => m.tipo === 'imagen');
+
+            let videoHTML = '';
+            if (videos.length > 0) {
+                const video = videos[0]; // Use the first video as introduction
+                videoHTML = `
+                    <div class="mb-8">
+                        <h4 class="text-lg font-bold text-upana-blue mb-3">Introducción del Proyecto</h4>
+                        <video id="project-video-${projectId}" class="video-js vjs-fluid vjs-big-play-centered" controls preload="auto">
+                            <source src="${video.url}" type="video/mp4" />
+                        </video>
+                        <div class="mt-3 text-center p-2 bg-gray-100 rounded-lg">
+                            <h5 class="font-bold text-upana-blue text-base">${video.titulo}</h5>
+                            <p class="text-gray-600 text-sm">${video.descripcion}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            let imageCarouselHTML = '';
+            if (images.length > 0) {
+                imageCarouselHTML = `
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold text-upana-blue mb-3">Galería de Imágenes</h4>
+                        <div class="carousel-container" id="image-carousel-${projectId}">
+                            ${images.map((image, index) => `
+                                <div class="carousel-slide ${index === 0 ? 'active' : ''}" data-slide="${index}">
+                                    <img src="${image.url}" class="w-full h-full object-cover" alt="${image.titulo}">
+                                    <div class="carousel-caption">
+                                        <h5 class="font-bold text-base mb-1">${image.titulo}</h5>
+                                        <p class="text-sm opacity-90">${image.descripcion}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            <button class="carousel-arrow prev" onclick="changeImageSlide('${projectId}', -1)">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            </button>
+                            <button class="carousel-arrow next" onclick="changeImageSlide('${projectId}', 1)">
+                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                            <button onclick="openImageFullscreen('${projectId}')" class="absolute top-3 right-3 bg-black/30 p-2 rounded-full text-white hover:bg-black/50 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m0 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5h-4m0 0v-4m0 4l-5-5"></path></svg>
+                            </button>
+                             <div class="carousel-nav" id="image-carousel-nav-${projectId}">
+                                ${images.map((_, index) => `
+                                    <div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToImageSlide('${projectId}', ${index})"></div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            modalContent.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        ${videoHTML}
+                        ${imageCarouselHTML}
+                        <div class="mb-6">
+                            <h3 class="text-xl font-bold text-upana-blue mb-2">Información del Proyecto</h3>
+                            <p class="text-gray-700 mb-4">${project.descripcion_completa}</p>
+                            <div class="bg-upana-gray p-4 rounded-lg flex items-center">
+                                <img src="${project.img_estudiante}" alt="${project.estudiante}" class="w-16 h-16 rounded-full mr-4 object-cover" onerror="this.style.display='none'">
+                                <div>
+                                    <strong class="block text-upana-blue">Estudiante:</strong>
+                                    <span>${project.estudiante}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="mb-6">
+                            <h4 class="text-lg font-bold text-upana-blue mb-3">Objetivos</h4>
+                            <ul class="space-y-2">
+                                ${(project.objetivos || []).map(obj => `
+                                    <li class="flex items-start">
+                                        <div class="w-2 h-2 bg-upana-green rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                        <span class="text-gray-700">${obj}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h4 class="text-lg font-bold text-upana-blue mb-3">Público Objetivo</h4>
+                            <p class="text-gray-700 bg-upana-gray p-4 rounded-lg">${project.publico_objetivo}</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h4 class="text-lg font-bold text-upana-blue mb-3">Estrategia de Marketing</h4>
+                            <p class="text-gray-700 bg-upana-gray p-4 rounded-lg">${project.estrategia_marketing}</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-bold text-upana-blue mb-3">Redes Sociales</h4>
+                            <div class="flex flex-wrap gap-3">
+                                ${(project.redes_sociales || []).map(social => `
+                                    <a href="${social.url}" target="_blank" rel="noopener noreferrer" class="flex items-center bg-${social.color}-50 hover:bg-${social.color}-100 border border-${social.color}-200 px-4 py-2 rounded-lg transition-colors group">
+                                        <svg class="w-4 h-4 mr-2 text-${social.color}-600" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="${social.icono}"/>
+                                        </svg>
+                                        <span class="text-${social.color}-700 font-medium">${social.nombre}</span>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Initialize Video.js player if a video exists
+            if (videos.length > 0) {
+                const videoPlayerId = `project-video-${projectId}`;
+                if (document.getElementById(videoPlayerId)) {
+                    videojs(videoPlayerId, { fluid: true });
+                }
+            }
+            
+            // Set initial state for the image carousel
+            if (images.length > 0) {
+                goToImageSlide(projectId, 0);
+            }
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('projectModal');
+            // Find any and all video.js players in the modal and dispose them
+            const videoElements = modal.querySelectorAll('.video-js');
+            videoElements.forEach(el => {
+                if (el && el.id && videojs.getPlayer(el.id)) {
+                    videojs.getPlayer(el.id).dispose();
+                }
+            });
+
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            currentSlides = {}; // Reset state
+        }
+        
+        function handleUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('idproyecto');
+
+            if (projectId) {
+                if (Object.keys(projectsData).length > 0 && projectsData[projectId]) {
+                    openProjectModal(projectId);
+                } else {
+                    scrollToSection('proyectos');
+                    const grid = document.getElementById('project-grid');
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'col-span-full text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-6';
+                    errorMessage.innerHTML = `<strong>¡Error!</strong> El proyecto con el ID "${projectId}" no existe.`;
+                    
+                    if (grid.firstChild) {
+                        grid.insertBefore(errorMessage, grid.firstChild);
+                    } else {
+                        grid.appendChild(errorMessage);
+                    }
+
+                    setTimeout(() => {
+                        errorMessage.remove();
+                    }, 5000);
+                }
+            }
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target === modal) {
+                closeProjectModal();
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeProjectModal();
+            }
+        });
+
+        // --- Image Carousel Logic ---
+
+        function changeImageSlide(projectId, direction) {
+            const carousel = document.getElementById(`image-carousel-${projectId}`);
+            if (!carousel) return;
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            
+            let newIndex = (currentSlides[projectId] || 0) + direction;
+            if (newIndex >= slides.length) newIndex = 0;
+            if (newIndex < 0) newIndex = slides.length - 1;
+
+            goToImageSlide(projectId, newIndex);
+        }
+
+        function goToImageSlide(projectId, slideIndex) {
+            const carousel = document.getElementById(`image-carousel-${projectId}`);
+            const dots = document.getElementById(`image-carousel-nav-${projectId}`).querySelectorAll('.carousel-dot');
+            if (!carousel || !dots) return;
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            
+            const oldIndex = currentSlides[projectId];
+            
+            // Deactivate old slide
+            if (oldIndex !== undefined && slides[oldIndex]) {
+                slides[oldIndex].classList.remove('active');
+                dots[oldIndex].classList.remove('active');
+            }
+            
+            // Activate new slide
+            currentSlides[projectId] = slideIndex;
+            slides[slideIndex].classList.add('active');
+            dots[slideIndex].classList.add('active');
+        }
+
+        // --- Fullscreen Image Modal Logic ---
+        function openImageFullscreen(projectId) {
+            const modal = document.getElementById('imageFullscreenModal');
+            const container = document.getElementById('fullscreenCarouselContainer');
+            const project = projectsData[projectId];
+            const images = (project.galeria || []).filter(m => m.tipo === 'imagen');
+            const currentImageIndex = currentSlides[projectId] || 0;
+
+            container.innerHTML = `
+                <div class="carousel-container w-full h-full" id="fullscreen-image-carousel">
+                    ${images.map((image, index) => `
+                        <div class="carousel-slide ${index === currentImageIndex ? 'active' : ''}" data-slide="${index}">
+                            <img src="${image.url}" class="w-full h-full object-contain" alt="${image.titulo}">
+                             <div class="carousel-caption">
+                                <h5 class="font-bold text-base mb-1">${image.titulo}</h5>
+                                <p class="text-sm opacity-90">${image.descripcion}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                    <button class="carousel-arrow prev" onclick="changeImageSlideFullscreen('${projectId}', -1)">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button class="carousel-arrow next" onclick="changeImageSlideFullscreen('${projectId}', 1)">
+                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>`;
+            
+            modal.style.display = 'block';
+        }
+
+        function closeImageFullscreen() {
+            const modal = document.getElementById('imageFullscreenModal');
+            modal.style.display = 'none';
+            document.getElementById('fullscreenCarouselContainer').innerHTML = '';
+        }
+
+        function changeImageSlideFullscreen(projectId, direction) {
+            const carousel = document.getElementById('fullscreen-image-carousel');
+            if (!carousel) return;
+            const slides = carousel.querySelectorAll('.carousel-slide');
+
+            let newIndex = currentSlides[projectId] + direction;
+            if (newIndex >= slides.length) newIndex = 0;
+            if (newIndex < 0) newIndex = slides.length - 1;
+            
+            // Sync both carousels
+            goToImageSlide(projectId, newIndex);
+            
+            const oldSlide = carousel.querySelector('.carousel-slide.active');
+            if(oldSlide) oldSlide.classList.remove('active');
+            slides[newIndex].classList.add('active');
+        }
+
+    </script>
+</body>
+</html>
+

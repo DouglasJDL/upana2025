@@ -222,6 +222,13 @@
             background-color: rgba(0, 0, 0, 0.8);
         }
 
+        /* FIX for tooltip on mobile */
+        @media (hover: hover) {
+            .group:hover .custom-tooltip {
+                opacity: 1;
+            }
+        }
+
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -642,9 +649,9 @@
                     </div>
                     <h3 class="text-2xl font-bold text-upana-blue mb-4">WhatsApp</h3>
                     <p class="text-gray-600 mb-6">Contáctanos directamente para resolver tus dudas</p>
-                    <a href="https://wa.me/50212345678" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-upana-green text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-upana-blue hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                        <span class="mr-3">💬</span>
-                        <span>+502 1234-5678</span>
+                    <a href="https://wa.me/50258598616" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-upana-green text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-upana-blue hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                         <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+                        <span>+502 5859-8616</span>
                     </a>
                     <p class="text-sm text-gray-500 mt-4">Horario de atención: Lunes a Viernes, 8:00 AM - 6:00 PM</p>
                 </div>
@@ -654,7 +661,7 @@
 
     <!-- Botón Flotante de WhatsApp -->
     <div class="fixed bottom-6 right-6 z-50">
-        <a href="https://wa.me/50212345678?text=Hola%2C%20tengo%20una%20consulta%20sobre%20la%20Presentaci%C3%B3n%20de%20Proyectos%20Marketing%20Plan%202025%20de%20UPANA" 
+        <a href="https://wa.me/50258598616?text=Hola%2C%20tengo%20una%20consulta%20sobre%20la%20Presentaci%C3%B3n%20de%20Proyectos%20Marketing%20Plan%202025%20de%20UPANA" 
            target="_blank" 
            rel="noopener noreferrer"
            class="group bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center animate-pulse hover:animate-none">
@@ -664,7 +671,7 @@
             </svg>
             
             <!-- Tooltip -->
-            <div class="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div class="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 custom-tooltip transition-opacity duration-300 pointer-events-none">
                 ¿Tienes preguntas? ¡Chatea con nosotros!
                 <div class="absolute left-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-l-gray-800"></div>
             </div>

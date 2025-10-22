@@ -728,7 +728,7 @@
     <!-- Modal para Proyectos -->
     <div id="projectModal" class="modal">
         <div class="modal-content">
-            <div class="bg-upana-blue text-white p-6 rounded-t-lg">
+            <div class="bg-upana-blue text-white p-6 rounded-t-lg sticky top-0 z-10">
                 <div class="flex justify-between items-center">
                     <h2 id="modalTitle" class="text-2xl font-bold">Proyecto</h2>
                     <button onclick="closeProjectModal()" class="text-white hover:text-upana-green text-2xl">&times;</button>
@@ -756,6 +756,7 @@
         // Store project data globally after fetching
         let projectsData = {};
         let currentSlides = {}; // Changed to track image carousel slide
+        let currentProjectId = null; // Track open project
 
         // --- Navigation ---
         function scrollToSection(sectionId) {
@@ -991,15 +992,19 @@
 
 
         // --- Modal ---
-        function openProjectModal(projectId) {
+        function openProjectModal(projectId, updateHistory = true) {
+            if (document.getElementById('projectModal').style.display === 'block') return;
+            
             const project = projectsData[projectId];
             if (!project) return;
+            
+            currentProjectId = projectId; // Set global project ID
 
             const modal = document.getElementById('projectModal');
             const modalTitle = document.getElementById('modalTitle');
             const modalContent = document.getElementById('modalContent');
 
-            modalTitle.textContent = project.title;
+            modalTitle.textContent = project.titulo;
 
             // Separate media types
             const videos = (project.galeria || []).filter(m => m.tipo === 'video');
@@ -1117,6 +1122,10 @@
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
+            if (updateHistory && location.hash !== '#project-' + projectId) {
+                location.hash = 'project-' + projectId;
+            }
+
             // Initialize Video.js player if a video exists
             if (videos.length > 0) {
                 const videoPlayerId = `project-video-${projectId}`;
@@ -1131,8 +1140,10 @@
             }
         }
 
-        function closeProjectModal() {
+        function closeProjectModal(updateHistory = true) {
             const modal = document.getElementById('projectModal');
+            if (modal.style.display === 'none') return; // Already closed
+
             // Find any and all video.js players in the modal and dispose them
             const videoElements = modal.querySelectorAll('.video-js');
             videoElements.forEach(el => {
@@ -1144,6 +1155,11 @@
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
             currentSlides = {}; // Reset state
+            currentProjectId = null;
+
+            if (updateHistory && location.hash) {
+                history.back();
+            }
         }
         
         function handleUrlParameters() {
@@ -1151,24 +1167,45 @@
             const projectId = urlParams.get('idproyecto');
 
             if (projectId) {
-                if (Object.keys(projectsData).length > 0 && projectsData[projectId]) {
-                    openProjectModal(projectId);
-                } else {
-                    scrollToSection('proyectos');
-                    const grid = document.getElementById('project-grid');
-                    const errorMessage = document.createElement('div');
-                    errorMessage.className = 'col-span-full text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-6';
-                    errorMessage.innerHTML = `<strong>¡Error!</strong> El proyecto con el ID "${projectId}" no existe.`;
-                    
-                    if (grid.firstChild) {
-                        grid.insertBefore(errorMessage, grid.firstChild);
-                    } else {
-                        grid.appendChild(errorMessage);
-                    }
+                // Wait for projectsData to be populated
+                const checkData = setInterval(() => {
+                    if (Object.keys(projectsData).length > 0) {
+                        clearInterval(checkData);
+                        if (projectsData[projectId]) {
+                            openProjectModal(projectId);
+                        } else {
+                            scrollToSection('proyectos');
+                            const grid = document.getElementById('project-grid');
+                            const errorMessage = document.createElement('div');
+                            errorMessage.className = 'col-span-full text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-6';
+                            errorMessage.innerHTML = `<strong>¡Error!</strong> El proyecto con el ID "${projectId}" no existe.`;
+                            
+                            if (grid.firstChild) {
+                                grid.insertBefore(errorMessage, grid.firstChild);
+                            } else {
+                                grid.appendChild(errorMessage);
+                            }
 
-                    setTimeout(() => {
-                        errorMessage.remove();
-                    }, 5000);
+                            setTimeout(() => {
+                                errorMessage.remove();
+                            }, 5000);
+                        }
+                    }
+                }, 100); // Check every 100ms
+            } else {
+                 // Check for hash changes from history (back button)
+                const hash = window.location.hash;
+                if (hash.startsWith('#project-')) {
+                    const projectIdFromHash = hash.substring(9); // length of '#project-'
+                    if (projectsData[projectIdFromHash]) {
+                        openProjectModal(projectIdFromHash, false); // Open without setting hash
+                    }
+                } else if (hash.startsWith('#fullscreen-')) {
+                    const projectIdFromHash = hash.substring(12); // length of '#fullscreen-'
+                    if (projectsData[projectIdFromHash]) {
+                        openProjectModal(projectIdFromHash, false); // Open project modal first
+                        openImageFullscreen(projectIdFromHash, false); // Then open fullscreen
+                    }
                 }
             }
         }
@@ -1182,7 +1219,24 @@
 
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
-                closeProjectModal();
+                if (document.getElementById('imageFullscreenModal').style.display === 'block') {
+                    closeImageFullscreen();
+                } else {
+                    closeProjectModal();
+                }
+            }
+        });
+        
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash;
+            const projectModalOpen = document.getElementById('projectModal').style.display === 'block';
+            const fullscreenModalOpen = document.getElementById('imageFullscreenModal').style.display === 'block';
+
+            if (!hash.includes('project-') && !hash.includes('fullscreen-')) {
+                if(projectModalOpen) closeProjectModal(false);
+                if(fullscreenModalOpen) closeImageFullscreen(false);
+            } else if (hash.includes('project-') && !hash.includes('fullscreen-')) {
+                if(fullscreenModalOpen) closeImageFullscreen(false);
             }
         });
 
@@ -1221,7 +1275,9 @@
         }
 
         // --- Fullscreen Image Modal Logic ---
-        function openImageFullscreen(projectId) {
+        function openImageFullscreen(projectId, updateHistory = true) {
+            if (document.getElementById('imageFullscreenModal').style.display === 'block') return;
+
             const modal = document.getElementById('imageFullscreenModal');
             const container = document.getElementById('fullscreenCarouselContainer');
             const project = projectsData[projectId];
@@ -1248,12 +1304,21 @@
                 </div>`;
             
             modal.style.display = 'block';
+            if (updateHistory) {
+                location.hash = 'fullscreen-' + projectId;
+            }
         }
 
-        function closeImageFullscreen() {
+        function closeImageFullscreen(updateHistory = true) {
             const modal = document.getElementById('imageFullscreenModal');
+            if (modal.style.display === 'none') return;
+
             modal.style.display = 'none';
             document.getElementById('fullscreenCarouselContainer').innerHTML = '';
+            
+            if (updateHistory) {
+                history.back();
+            }
         }
 
         function changeImageSlideFullscreen(projectId, direction) {

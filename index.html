@@ -811,7 +811,7 @@
         });
 
         // --- Form Handling ---
-        function handleRegistration(event) {
+        async function handleRegistration(event) {
             event.preventDefault();
             const form = event.target;
             const button = form.querySelector('button[type="submit"]');
@@ -820,7 +820,7 @@
             const registrationContainer = document.getElementById('registration-container');
             const successContainer = document.getElementById('success-container');
 
-            // Simulate sending state
+            // 1. Show sending state
             button.disabled = true;
             button.innerHTML = `
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -830,29 +830,95 @@
                 Enviando...
             `;
 
-            // Simulate network delay
-            setTimeout(() => {
-                // Hide form, show success
-                registrationContainer.classList.add('hidden');
+            let ip = "0.0.0.0";
+            try {
+                // 2. Get IP Address (Fallback to a unique ID if blocked)
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                if (!ipResponse.ok) throw new Error('IP service blocked');
+                const ipData = await ipResponse.json();
+                ip = ipData.ip;
+            } catch (ipError) {
+                // console.error("Error al obtener la IP (fallback to UUID):", ipError); // Removed console error
+                // Fallback to a unique ID to satisfy API requirements and avoid rate-limiting collisions
+                ip = crypto.randomUUID();
+            }
+
+            // 3. Get Form Data
+            const formData = new FormData(form);
+            const payload = {
+                key: "BbXeV,>D14N9L1?H;nvGCD$=Wrbj32P",
+                ip: ip,
+                nombre: formData.get('nombre'),
+                email: formData.get('email'),
+                telefono: formData.get('telefono'),
+                tipo: formData.get('tipo'),
+                comentarios: formData.get('comentarios') || "N/A" // Ensure not empty
+            };
+
+            // 4. Send to Google Script
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyxWKcFFv0ktUM7Xs9qB9JBNyh3kIMgygssXIxV-Olcgb9sOwjKBly8fAu3NsUiCHy4-/exec';
+
+            try {
+                // We must send as text/plain for Google Apps Script to receive in e.postData.contents
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8', 
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error de red: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+
+                if (result.status === 'ok') {
+                    // 5a. Handle Success
+                    registrationContainer.classList.add('hidden');
+                    successContainer.innerHTML = `
+                        <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                            <div class="w-16 h-16 bg-upana-green rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-upana-blue mb-2">¡Asistencia Confirmada!</h3>
+                            <p class="text-gray-600 mb-6">Gracias, ${payload.nombre}. ${result.message}.</p>
+                            <button onclick="resetRegistrationForm()" class="bg-upana-blue text-white py-3 px-6 rounded-lg font-bold hover:bg-upana-light-blue transition-colors">
+                                Confirmar otra asistencia
+                            </button>
+                        </div>
+                    `;
+                    successContainer.classList.remove('hidden');
+                    form.reset();
+
+                } else {
+                    // 5b. Handle API Error (e.g., rate limit, missing fields)
+                    throw new Error(result.message || "Error desconocido de la API.");
+                }
+
+            } catch (error) {
+                // 5c. Handle Network/Fetch Error
+                console.error("Error al enviar el formulario:", error);
+                registrationContainer.classList.add('hidden'); // Ocultar el formulario
                 successContainer.innerHTML = `
                     <div class="bg-white p-8 rounded-lg shadow-lg text-center">
-                        <div class="w-16 h-16 bg-upana-green rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-upana-blue mb-2">¡Asistencia Confirmada!</h3>
-                        <p class="text-gray-600 mb-6">Gracias, ${nombre}. Hemos recibido tu confirmación.</p>
+                        <h3 class="text-2xl font-bold text-red-600 mb-2">Error al Enviar</h3>
+                        <p class="text-gray-600 mb-6">${error.message}</p>
                         <button onclick="resetRegistrationForm()" class="bg-upana-blue text-white py-3 px-6 rounded-lg font-bold hover:bg-upana-light-blue transition-colors">
-                            Confirmar otra asistencia
+                            Intentar de nuevo
                         </button>
                     </div>
                 `;
                 successContainer.classList.remove('hidden');
-
-                // Reset button but keep form hidden
+            } finally {
+                // 6. Reset button
                 button.disabled = false;
                 button.innerHTML = originalButtonText;
-
-            }, 2000);
+            }
         }
 
         function resetRegistrationForm() {
@@ -1164,7 +1230,17 @@
         
         function handleUrlParameters() {
             const urlParams = new URLSearchParams(window.location.search);
-            const projectId = urlParams.get('idproyecto');
+            let projectId = urlParams.get('idproyecto');
+            
+            // Also check hash for project ID
+            if (!projectId && window.location.hash.startsWith('#project-')) {
+                projectId = window.location.hash.substring(9);
+            }
+            // Also check for fullscreen hash
+            if (!projectId && window.location.hash.startsWith('#fullscreen-')) {
+                projectId = window.location.hash.substring(12);
+            }
+
 
             if (projectId) {
                 // Wait for projectsData to be populated
@@ -1173,6 +1249,10 @@
                         clearInterval(checkData);
                         if (projectsData[projectId]) {
                             openProjectModal(projectId);
+                            // If fullscreen hash, open that too
+                            if (window.location.hash.startsWith('#fullscreen-')) {
+                                openImageFullscreen(projectId, false);
+                            }
                         } else {
                             scrollToSection('proyectos');
                             const grid = document.getElementById('project-grid');
@@ -1192,21 +1272,6 @@
                         }
                     }
                 }, 100); // Check every 100ms
-            } else {
-                 // Check for hash changes from history (back button)
-                const hash = window.location.hash;
-                if (hash.startsWith('#project-')) {
-                    const projectIdFromHash = hash.substring(9); // length of '#project-'
-                    if (projectsData[projectIdFromHash]) {
-                        openProjectModal(projectIdFromHash, false); // Open without setting hash
-                    }
-                } else if (hash.startsWith('#fullscreen-')) {
-                    const projectIdFromHash = hash.substring(12); // length of '#fullscreen-'
-                    if (projectsData[projectIdFromHash]) {
-                        openProjectModal(projectIdFromHash, false); // Open project modal first
-                        openImageFullscreen(projectIdFromHash, false); // Then open fullscreen
-                    }
-                }
             }
         }
 

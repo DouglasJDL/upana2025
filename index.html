@@ -1200,7 +1200,7 @@
                     </div>
                 </div>
             `;
-
+            resetProjectModalScroll();
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
@@ -1234,6 +1234,7 @@
                 }
             });
 
+            resetProjectModalScroll();
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
             currentSlides = {}; // Reset state
@@ -1420,6 +1421,18 @@
         }
 
     </script>
+    <script>
+    function resetProjectModalScroll() {
+    const mc = document.querySelector('#projectModal .modal-content');
+    if (!mc) return;
+    // Reset inmediato
+    mc.scrollTop = 0;
+    // Asegura reset tras el reflow/render del nuevo contenido
+    requestAnimationFrame(() => { mc.scrollTop = 0; });
+    }
+    </script>
+
+
 </body>
 </html>
 

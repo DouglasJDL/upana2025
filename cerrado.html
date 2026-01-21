@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="https://mydatapca.s3.us-east-2.amazonaws.com/upana/favicon.ico">
+  <title>Evento Finalizado | Expo-Económicas UPANA 2025</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'upana-blue': '#003B71',
+            'upana-light-blue': '#0070BA',
+            'upana-green': '#A8D92E',
+            'upana-gray': '#F2F2F2'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { box-sizing: border-box; }
+    .hero-gradient { background: linear-gradient(135deg, #003B71 0%, #0070BA 100%); }
+  </style>
+</head>
+
+<body class="bg-upana-gray">
+  <!-- Header simple -->
+  <header class="bg-white shadow-lg sticky top-0 z-50">
+    <nav class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <a href="#" class="flex items-center space-x-3" onclick="event.preventDefault();">
+          <img src="https://mydatapca.s3.us-east-2.amazonaws.com/upana/logo.webp"
+               alt="Logo UPANA"
+               class="w-10 h-10 rounded-full object-cover">
+          <div class="text-upana-blue font-bold text-sm">UPANA</div>
+        </a>
+
+        <a href="https://wa.me/50258598616"
+           target="_blank" rel="noopener noreferrer"
+           class="bg-upana-green text-upana-blue px-4 py-2 rounded-full font-bold text-sm hover:bg-upana-light-blue hover:text-white transition-colors">
+          Contacto WhatsApp
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero / Pantalla de cierre -->
+  <section class="relative min-h-[85vh] md:min-h-screen bg-gradient-to-br from-upana-blue via-upana-light-blue to-upana-blue overflow-hidden">
+    <!-- Decoración -->
+    <div class="absolute inset-0">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-upana-green/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-upana-green/5 to-transparent rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Patrón sutil -->
+    <div class="absolute inset-0 opacity-10">
+      <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100" height="100" fill="url(#grid)" />
+      </svg>
+    </div>
+
+    <div class="relative container mx-auto px-4 py-16 md:py-28">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-white leading-tight mt-10">
+          EXPO-ECONÓMICAS
+          <span class="block bg-gradient-to-r from-upana-green to-white bg-clip-text text-transparent">
+            UPANA 2025
+          </span>
+        </h1>
+
+        <div class="mt-6 mb-8">
+          <div class="w-20 md:w-28 h-1 bg-gradient-to-r from-upana-green to-white mx-auto rounded-full"></div>
+        </div>
+
+        <!-- Card principal -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-7 md:p-10 text-left">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-upana-green flex items-center justify-center flex-shrink-0">
+              <span class="text-2xl">✅</span>
+            </div>
+            <div class="w-full">
+              <h2 class="text-2xl md:text-3xl font-bold text-upana-blue mb-2">Evento finalizado</h2>
+              <p class="text-gray-700 leading-relaxed">
+                Gracias por acompañarnos. Esta página queda disponible solo como referencia,
+                pero el evento ya concluyó.
+              </p>
+
+              <div class="mt-6 grid sm:grid-cols-3 gap-3">
+                <div class="bg-upana-gray rounded-2xl p-4 text-center">
+                  <div class="text-2xl mb-1">📅</div>
+                  <div class="text-upana-blue font-bold text-sm">Fecha</div>
+                  <div class="text-gray-700 text-sm">16 Nov 2025</div>
+                </div>
+                <div class="bg-upana-gray rounded-2xl p-4 text-center">
+                  <div class="text-2xl mb-1">🕒</div>
+                  <div class="text-upana-blue font-bold text-sm">Horario</div>
+                  <div class="text-gray-700 text-sm">4:00 PM - 6:00 PM</div>
+                </div>
+                <div class="bg-upana-gray rounded-2xl p-4 text-center">
+                  <div class="text-2xl mb-1">📍</div>
+                  <div class="text-upana-blue font-bold text-sm">Ubicación</div>
+                  <div class="text-gray-700 text-sm">C.C. Trinidad</div>
+                </div>
+              </div>
+
+              <div class="mt-7 bg-upana-blue/5 border border-upana-blue/10 rounded-2xl p-5">
+                <h3 class="text-upana-blue font-bold mb-2">¿Necesitas información o contacto?</h3>
+                <p class="text-gray-700 text-sm md:text-base mb-4">
+                  Escríbenos por WhatsApp y te apoyamos con cualquier consulta relacionada al evento o a los proyectos.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                  <a href="https://wa.me/50258598616?text=Hola%2C%20tengo%20una%20consulta%20sobre%20la%20Expo-Econ%C3%B3micas%202025%20de%20UPANA"
+                     target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center justify-center bg-upana-green text-upana-blue px-6 py-3 rounded-2xl font-bold hover:bg-upana-light-blue hover:text-white transition-colors w-full">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    </svg>
+                    WhatsApp +502 5859-8616
+                  </a>
+
+                  <a href="https://www.upana.edu.gt/"
+                     target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center justify-center bg-white text-upana-blue px-6 py-3 rounded-2xl font-bold border border-upana-blue/20 hover:bg-upana-blue hover:text-white transition-colors w-full">
+                    Sitio oficial UPANA
+                  </a>
+                </div>
+
+                <p class="text-xs text-gray-500 mt-4">
+                  Horario de atención: Lunes a Viernes, 8:00 AM - 6:00 PM
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <p class="text-white/70 text-xs mt-6">
+          Este portal fue creado con fines académicos y no forma parte del dominio oficial de Universidad Panamericana de Guatemala.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-upana-blue text-white py-8">
+    <div class="container mx-auto px-6 text-center">
+      <p class="text-sm">
+        © 2025 Proyecto Expo-Económicas UPANA. Sitio académico.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
